@@ -1,6 +1,13 @@
 // selectors
+const container = document.getElementById('container');
+const welcomeBox = document.getElementById('welcomeBox');
+const welcomeElement = document.getElementById('welcome');
+const enterField = document.getElementById('enter');
 const boardElement = document.getElementById('board');
 const actioncam = document.getElementById('action-cam');
+let welcomeText = "Hello adventurer! Please write your name and press 'Enter':";
+let playerName;
+let i = 0;
 
 // sounds
 const sounds = {
@@ -22,105 +29,107 @@ const sounds = {
 // game state. Is used in the keyboard event listener to prevent user action if game is over
 let GAME_STATE = 'PLAY';
 
-// init board
-// Create a board with 20 rows and 25 columns (can play around to test different sizes) and render it
-const board = new Board(20, 25);
-board.render(boardElement);
-
-// init player
-// create player at the center of the board with 2 items and render it
-const player = new Player(
-  'Sam',
-  new Position(
-    Math.floor(board.rows.length / 2),
-    Math.floor(board.rows[0].length / 2)
-  ),
-  board,
-  1,
-  [],
-  0
+function typeWriter() {
+  if (i < welcomeText.length) {
+    welcomeElement.innerHTML += welcomeText.charAt(i);
+    i++;
+    setTimeout(typeWriter, 75);
+  }
+}
+typeWriter();
+setTimeout(
+  () => (enterField.innerHTML += '<input type="text" id="name">'),
+  80 * welcomeText.length
 );
-player.render(boardElement);
+enterField.addEventListener('keydown', ev => {
+  if (ev.key === 'Enter') {
+    playerName = document.getElementById('name').value;
+    container.removeChild(welcomeBox);
+    startGame();
+  }
+});
 
-// Keep this, used to display the information on the box on the right of the board
-updateActionCam();
+let board;
+let player;
 
-// board entities
-
-// monsters
-
-// Create all the monsters entities and set them on the board at a random position
-// Give each monster a random name, random level (1-3), a potion (random rarity 0-3), random gold (0-50)
-// Give one monster the key
-for (let i = 0; i < MAX_MONSTERS; i++) {
+function startGame() {
+  board = new Board(20, 25);
+  board.render(boardElement);
+  player = new Player(
+    playerName,
+    new Position(
+      Math.floor(board.rows.length / 2),
+      Math.floor(board.rows[0].length / 2)
+    ),
+    board,
+    1,
+    [],
+    0
+  );
+  player.render(boardElement);
+  updateActionCam();
+  for (let i = 0; i < MAX_MONSTERS; i++) {
+    board.setEntity(
+      new Monster(
+        ALT_MONSTER_NAMES[getRandom(0, ALT_MONSTER_NAMES.length - 1)],
+        getRandom(1, 3),
+        [new Potion(getRandom(0, 3))],
+        getRandom(0, 50)
+      ),
+      getRandomPosition(board)
+    );
+  }
   board.setEntity(
     new Monster(
       ALT_MONSTER_NAMES[getRandom(0, ALT_MONSTER_NAMES.length - 1)],
-      getRandom(1, 3),
-      [new Potion(getRandom(0, 3))],
+      3,
+      [new Key(), new Potion(getRandom(0, 3))],
       getRandom(0, 50)
     ),
     getRandomPosition(board)
   );
+  board.setEntity(new Potion(0), getRandomPosition(board));
+  board.setEntity(new Bomb(0), getRandomPosition(board));
+  board.setEntity(new Gold(getRandom(5, 50)), getRandomPosition(board));
+  board.setEntity(
+    new Dungeon(true, false, getRandom(20, 200), [
+      new Potion(getRandom(0, 3)),
+      new Bomb(getRandom(0, 3)),
+      new Potion(getRandom(0, 3)),
+      new Bomb(getRandom(0, 3)),
+    ]),
+    getRandomPosition(board)
+  );
+  board.setEntity(
+    new Dungeon(false, false, getRandom(20, 200), [
+      new Potion(getRandom(0, 3)),
+      new Bomb(getRandom(0, 3)),
+      new Potion(getRandom(0, 3)),
+      new Bomb(getRandom(0, 3)),
+    ]),
+    getRandomPosition(board)
+  );
+  board.setEntity(
+    new Dungeon(false, true, 10000, []),
+    getRandomPosition(board)
+  );
+  board.setEntity(
+    new Tradesman([
+      new Potion(0),
+      new Potion(1),
+      new Potion(2),
+      new Potion(3),
+      new Bomb(0),
+      new Bomb(1),
+      new Bomb(2),
+      new Bomb(3),
+      new Key(),
+    ]),
+    getRandomPosition(board)
+  );
 }
-board.setEntity(
-  new Monster(
-    ALT_MONSTER_NAMES[getRandom(0, ALT_MONSTER_NAMES.length - 1)],
-    3,
-    [new Key(), new Potion(getRandom(0, 3))],
-    getRandom(0, 50)
-  ),
-  getRandomPosition(board)
-);
 
-// items
-// Add code to create a potion and a bomb entity and set them at a random board position
-board.setEntity(new Potion(0), getRandomPosition(board));
-board.setEntity(new Bomb(0), getRandomPosition(board));
-
-// gold
-// Add code to create a gold entity and place it at a random position on the board
-board.setEntity(new Gold(getRandom(5, 50)), getRandomPosition(board));
-
-// dungeons
-// Add code for an opened dungeon and a closed dungeon you can loot (random position)
-// Add code for a dungeon that is closed and has the princess (random position)
-board.setEntity(
-  new Dungeon(true, false, getRandom(20, 200), [
-    new Potion(getRandom(0, 3)),
-    new Bomb(getRandom(0, 3)),
-    new Potion(getRandom(0, 3)),
-    new Bomb(getRandom(0, 3)),
-  ]),
-  getRandomPosition(board)
-);
-board.setEntity(
-  new Dungeon(false, false, getRandom(20, 200), [
-    new Potion(getRandom(0, 3)),
-    new Bomb(getRandom(0, 3)),
-    new Potion(getRandom(0, 3)),
-    new Bomb(getRandom(0, 3)),
-  ]),
-  getRandomPosition(board)
-);
-board.setEntity(new Dungeon(false, true, 10000, []), getRandomPosition(board));
-
-// tradesman
-// Add code for a tradesman with a potion of each rarity (0 to 3), bomb of each rarity and a key at a random position
-board.setEntity(
-  new Tradesman([
-    new Potion(0),
-    new Potion(1),
-    new Potion(2),
-    new Potion(3),
-    new Bomb(0),
-    new Bomb(1),
-    new Bomb(2),
-    new Bomb(3),
-    new Key(),
-  ]),
-  getRandomPosition(board)
-);
+// Keep this, used to display the information on the box on the right of the board
 
 // event handlers
 
