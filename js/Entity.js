@@ -13,6 +13,17 @@ Entity class definition
 Example use: not used by itself. 
 */
 
+class Entity {
+  constructor(src) {
+    const img = document.createElement('img');
+    img.src = src;
+    this.element = img;
+  }
+  setImage(src) {
+    this.element.src = src;
+  }
+}
+
 /*
 Wall class definition. A Wall is an Entity
 - constructor
@@ -21,6 +32,12 @@ Wall class definition. A Wall is an Entity
 Example use:
 new Wall()
 */
+
+class Wall extends Entity {
+  constructor() {
+    super('alt_imgs/environment/wall.png');
+  }
+}
 
 /*
 Grass class definition. Grass is an Entity
@@ -31,6 +48,12 @@ Example use:
 new Grass()
 */
 
+class Grass extends Entity {
+  constructor(src) {
+    super('alt_imgs/environment/grass' + getRandom(1, 6) + '.png');
+  }
+}
+
 /*
 Gold class definition. Gold is an Entity
 - constructor
@@ -40,6 +63,13 @@ Gold class definition. Gold is an Entity
 Example use:
 new Gold()
 */
+
+class Gold extends Entity {
+  constructor(value) {
+    super('alt_imgs/gold.gif');
+    this.value = value;
+  }
+}
 
 /*
 Dungeon class definition. Gold is an Entity
@@ -57,6 +87,22 @@ Example use:
 new Dungeon(true, false, 30, [new Potion(2), new Bomb(2)]);
 */
 
+class Dungeon extends Entity {
+  constructor(isOpen, hasPrincess, gold, items) {
+    super();
+    this.isOpen = isOpen;
+    this.hasPrincess = hasPrincess;
+    this.gold = gold;
+    this.items = items;
+    this.setImage(
+      this.isOpen === true
+        ? 'alt_imgs/dungeon/open.png'
+        : 'alt_imgs/dungeon/close.png'
+    );
+  }
+  open() {}
+}
+
 /*
 Tradesman class definition. A Tradesman is an Entity
 - constructor
@@ -66,3 +112,10 @@ Tradesman class definition. A Tradesman is an Entity
 Example use:
 new Tradesman([new Potion(0), new Bomb(0), new Key()]);
 */
+
+class Tradesman extends Entity {
+  constructor(items) {
+    super('alt_imgs/tradesman.png');
+    this.items = items;
+  }
+}

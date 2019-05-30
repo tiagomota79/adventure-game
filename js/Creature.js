@@ -25,6 +25,31 @@ The Creature class is an Entity. It has the following properties (not including 
 Example use: not used by itself. 
 */
 
+class Creature extends Entity {
+  constructor(name, img, level, items, gold) {
+    super(img);
+    this.name = name;
+    this.level = level;
+    this.items = items;
+    this.gold = gold;
+    this.hp = this.level * 100;
+    this.strength = this.level * 10;
+    this.attackSpeed = 3000 / this.level;
+  }
+  getMaxHp() {
+    return this.level * 100;
+  }
+  attack(entity) {
+    entity.hp -= this.strength;
+    entity.hp = Math.max(0, entity.hp);
+    this.attackTimeOut = setTimeout(() => {
+      this.attackTimeOut = null;
+      return false;
+    }, this.attackSpeed);
+    return true;
+  }
+}
+
 /*
 The Monster class is a Creature. It has the following properties (bot including inherited properties):
 - constructor
@@ -39,3 +64,18 @@ The Monster class is a Creature. It has the following properties (bot including 
 Example use:
 new Monster('Anti Fairy', 1, [], 0); // Creates a Monster named Anti Fairy, level 1, no items and 0 gold. Only the name is required.
 */
+
+class Monster extends Creature {
+  constructor(name, level, items, gold) {
+    super(
+      name,
+      `alt_imgs/monsters/${name.replace(/ /g, '')}.png`,
+      level,
+      items,
+      gold
+    );
+  }
+  attack(entity) {
+    if (super.attack(entity)) playSound('mattack');
+  }
+}

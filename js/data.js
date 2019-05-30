@@ -1,4 +1,22 @@
 const ITEM_RARITIES = ['Common', 'Unusual', 'Rare', 'Epic'];
+const ALT_MONSTER_NAMES = [
+  'Centaur',
+  'Cerberus',
+  'Chimera',
+  'Ghost',
+  'Goblin',
+  'Golem',
+  'Manticore',
+  'Medusa',
+  'Minotaur',
+  'Mummy',
+  'Ogre',
+  'Red Knight',
+  'Two Headed Troll',
+  'Vampire',
+  'Wendigo',
+  'Witch',
+];
 const MONSTER_NAMES = [
   'Anti Fairy',
   'Gibdo',
