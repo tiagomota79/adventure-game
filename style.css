@@ -6,7 +6,10 @@
 
 body {
   margin: 0;
-  font-family: fantasy;
+  font-family: 'Press Start 2P', cursive;
+  font-size: small;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
 }
 
 #container {
@@ -19,6 +22,7 @@ body {
 
 #board {
   position: relative;
+  text-align: center;
 }
 
 #board > h1 {
@@ -34,18 +38,19 @@ body {
   height: 32px;
   object-fit: contain;
   object-position: center;
-  background: url('imgs/environment/grass1.png');
+  background: url('alt_imgs/environment/grass1.png');
 }
 
 #action-cam {
   background: #fff;
   border-radius: 5px;
+  min-width: 415px;
 }
 
 #action-cam img {
   display: block;
-  width: 100px;
-  height: 100px;
+  width: 96px;
+  height: 96px;
   object-fit: contain;
   object-position: center;
 }
@@ -81,4 +86,15 @@ body {
   width: 80%;
   padding: 5px;
   margin: 10px auto;
+  font-family: 'Press Start 2P', cursive;
+  font-size: smaller;
+  background-image: url(alt_imgs/button.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: none;
+}
+
+#action-menu button:active {
+  background-image: url(alt_imgs/button_u.png);
 }
