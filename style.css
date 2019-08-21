@@ -35,7 +35,7 @@ input {
 
 #enter {
   display: flex;
-  padding-top: 5%;
+  padding-top: 15px;
 }
 
 #board {
