@@ -8,6 +8,8 @@ Gameplay is very simple: the user moves the character using the keyboard, and al
 
 For this project, the instructor provided a basic frame with instructions and a general structure.
 
+## [Play it here!](https://tiagomota79.github.io/adventure-game)
+
 ## Screenshots
 
 ![preview](screenshots/action_window.png)
