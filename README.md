@@ -1,49 +1,32 @@
-# OOP Project
+# Adventure Game
 
-1. Fork this repository
-2. Clone your forked repository
-3. Read this README file and look over the screenshots provided
+![preview](screenshots/game_screen.png)
 
-![preview](screenshots/start.png)
+Browser-based game created with Object-Oriented Programming and DOM manipulation in Javascript. Graphics were adapted from publicly available assets or created from scratch.
 
-## Rubrics
+Gameplay is very simple: the user moves the character using the keyboard, and all actions are performed by clicking buttons on the screen. Once the user opens the dungeon where the prize is, the quest is finished.
 
-Core functionality
+For this project, the instructor provided a basic frame with instructions and a general structure.
 
-- Board is rendered
-- Player can move
-- Player can not go past walls
+## Screenshots
 
-Additional functionality
+![preview](screenshots/action_window.png)
 
-- Monsters, Items, Gold, Tradesman, Dungeons are all created and placed randomly on the board at the start of the game
-- Player can pickup items and gold
 
-Battle
+![preview](screenshots/action_window_2.png)
 
-- Player can attack enemies
-- Monster attacks player
-- Player and Monster information is displayed
 
-Tradesman
+![preview](screenshots/action_window_3.png)
 
-- Can buy and sell items
 
-Dungeon
+![preview](screenshots/action_window_4.png)
 
-- Can open closed dungeons
-- Can loot open dungeons (no princess)
-- Can win the game when player goes to an opened dungeon with princess
 
-Extra features
+![preview](screenshots/game_over.png)
 
-- Player can use items in battle
-- Game has all the sounds
-- Surprise me?
 
-## Instructions
+![preview](screenshots/quest_completed.png)
 
-Implement the classes by going over each js file and reading the comments.
-Implement the game logic by going over the main.js file and reading the comments.
+###### _[Link sprites](https://www.spriters-resource.com/custom_edited/thelegendofzeldacustoms/sheet/17402/) designed by [Fox from ZFGC](https://www.spriters-resource.com/submitter/Fox/)_
 
-You do not need to update **index.html**, **style.css** or **data.js** (although you can play around with MAX_MONSTERS)
+###### _Link, Zelda and all related content © Nintendo_
